@@ -6,6 +6,7 @@ function(event, _, message, _, sourceGUID, _, _, _, destGUID, _, _, _, spellID, 
     local DRW_buff_ID = 81256
     local DRW_spell_ID = 49028
     local DCaressID = 195292
+    local DeathCoilID = 47541
     local threshold = 7
     local currentTime = GetTime()
     
@@ -33,6 +34,11 @@ function(event, _, message, _, sourceGUID, _, _, _, destGUID, _, _, _, spellID, 
             if message == "SPELL_CAST_SUCCESS"
             and sourceGUID == WeakAuras.myGUID
             then
+                if spellID == DeathCoilID then
+                    aura_env.lastMistake = 4
+                    aura_env.timeLastMistake = currentTime
+                    PlaySoundFile(soundPath, "SFX");
+                end
                 if spellID == marrowendID then
                     if aura_env.nbStack > threshold then
                         if currentTime - aura_env.startTime < 24 then
