@@ -3,7 +3,9 @@ function(event, _, message, _, sourceGUID, _, _, _, destGUID, _, _, _, spellID, 
     local boneShieldID = 195181
     local marrowendID = 195182
     local deathStrikeID = 49998
-    local DRW_ID = 278543
+    local DRW_buff_ID = 81256
+    local DRW_spell_ID = 49028
+    local DCaressID = 195292
     local threshold = 7
     local currentTime = GetTime()
     
@@ -33,6 +35,17 @@ function(event, _, message, _, sourceGUID, _, _, _, destGUID, _, _, _, spellID, 
             then
                 if spellID == marrowendID then
                     if aura_env.nbStack > threshold then
+                        if currentTime - aura_env.startTime < 24 then
+                            aura_env.lastMistake = 3
+                            aura_env.timeLastMistake = currentTime
+                            PlaySoundFile(soundPath, "SFX");
+                        end
+                    end
+                    aura_env.nbStack = select(3, WA_GetUnitBuff("player", boneShieldID))
+                    aura_env.startTime = currentTime
+                end
+                if spellID == DCaressID then
+                    if aura_env.nbStack > 8 then
                         if currentTime - aura_env.startTime < 24 then
                             aura_env.lastMistake = 3
                             aura_env.timeLastMistake = currentTime
